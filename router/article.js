@@ -33,6 +33,16 @@ router.post('/add', async (ctx, next) => {
   ctx.response.body = data
 })
 
+//编辑文章
+router.post('/edit', async (ctx, next) => {
+  let reqBody = ctx.request.body
+
+  let data = await dataQuery.query(article_sql.articleSQL.UPDATE_ARTICLE(reqBody))
+
+  data.response = undefined
+  ctx.response.body = data
+})
+
 //删除文章
 router.delete('/delete/:article_id', async (ctx, next) => {
   let req = ctx.params
@@ -50,9 +60,9 @@ router.put('/top/:article_id', async (ctx, next) => {
   let data = {}
 
   if (body.isTop === 1) {
-    data = await dataQuery.query(article_sql.articleSQL.UPDATE_ARTICLE('isTop', 0, 'article_id', req.article_id))
+    data = await dataQuery.query(article_sql.articleSQL.UPDATE_ISTOP('isTop', 0, 'article_id', req.article_id))
   } else {
-    data = await dataQuery.query(article_sql.articleSQL.UPDATE_ARTICLE('isTop', 1, 'article_id', req.article_id))
+    data = await dataQuery.query(article_sql.articleSQL.UPDATE_ISTOP('isTop', 1, 'article_id', req.article_id))
   }
 
   data.response = undefined
