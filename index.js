@@ -13,6 +13,25 @@ app.use(cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Custom-Header', 'anonymous'],
 }))
 
+// 错误处理
+app.use((ctx, next) => {
+  return next().catch((err) => {
+    if (err.message.indexOf('Authentication') !== -1) {
+      ctx.status = 401
+      ctx.body = {
+        code: 401,
+        message: 'token验证失败'
+      }
+    } else {
+      console.log(err);
+      ctx.body = {
+        code: 201,
+        message: err.message
+      }
+    }
+  })
+})
+
 const routes = require('./router/index')
 
 app.use(routes.routes(), routes.allowedMethods());

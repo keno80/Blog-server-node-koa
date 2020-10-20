@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const jwt = require('jsonwebtoken')
+const {signToken} = require('../utils/security')
 const dataQuery = require('../utils/query')
 const user_sql = require('../utils/user_sql')
 
@@ -9,14 +9,9 @@ router.post('/login', async (ctx, next) => {
 
   const userInfo = await dataQuery.query(user_sql.userSQL.USER_LOGIN(body.username))
 
-  if (userInfo.response.length !== 0) {
-    if (userInfo.response[0].password === body.password) {
-      const userToken = {
-        username: userInfo.response[0].username,
-        uid: userInfo.response[0].uid
-      }
-      const secret = 'node-koa-jwt'
-      const token = jwt.sign(userToken, secret)
+  if (userInfo.length !== 0) {
+    if (userInfo[0].password === body.password) {
+      const token = signToken(userInfo)
       ctx.response.body = {
         code: 200,
         message: '登录成功',
@@ -29,21 +24,20 @@ router.post('/login', async (ctx, next) => {
       }
     }
   }
-  //
-  // console.log(`新请求 -> /userInfo, 请求参数 -> ${query.name}`);
-  // console.log(data);
-  //
-  // ctx.response.body = data
 })
 
 //获取用户信息
 router.get('/getInfo', async (ctx, next) => {
 
-  let data = await dataQuery.query(user_sql.userSQL.QUERY_TABLE('user'))
+  const data = await dataQuery.query(user_sql.userSQL.QUERY_TABLE('user'))
 
-  data.response[0].password = undefined
+  data[0].password = undefined
 
-  ctx.response.body = data
+  ctx.response.body = {
+    code: 200,
+    message: '获取个人信息成功',
+    data
+  }
 })
 
 module.exports = router
