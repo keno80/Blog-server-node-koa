@@ -18,13 +18,28 @@ router.post('/list/:page/:size', async (ctx, next) => {
 
   for (let i = 0; i < data.length; i++) {
     data[i].tags = eval(data[i].tags)
-    data[i].create_time = dayjs(data[i].create_time).format('YYYY-MM-DD hh:mm:ss')
+    data[i].create_time = dayjs(data[i].create_time).format('YYYY-MM-DD HH:mm:ss')
   }
 
   ctx.response.body = {
     code: 200,
     message: '文章获取成功',
     data
+  }
+})
+
+//获取文章详情
+router.post('/info/:id', async (ctx, next) => {
+  let req = ctx.params
+
+  const data = await dataQuery.query(article_sql.articleSQL.QUERY_ARTICLE_INFO(req.id))
+  data[0].tags = eval(data[0].tags)
+  data[0].create_time = dayjs(data[0].create_time).format('YYYY-MM-DD HH:mm:ss')
+
+  ctx.response.body = {
+    code: 200,
+    message: '获取文章详情成功',
+    data: data[0]
   }
 })
 
