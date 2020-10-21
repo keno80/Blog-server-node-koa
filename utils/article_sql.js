@@ -11,7 +11,7 @@ const QUERY_PAGE_ARTICLE = (page, size) => `SELECT * FROM article ORDER BY isTop
 const QUERY_CONDITION_PAGE_ARTICLE = (article, page, size) => `SELECT * FROM article WHERE title LIKE '%${article.title}%' OR type='${article.type}' limit ${page - 1},${size};`
 
 //获取某一篇文章详情
-const QUERY_ARTICLE_INFO = (id) => `SELECT * FROM article WHERE article_id='${id}';`
+const QUERY_ARTICLE_INFO = (id) => `SELECT * FROM article WHERE article_id='${id}';UPDATE article SET view_people=view_people+1 WHERE article_id=${id}`
 
 //插入数据
 const INSERT_ARTICLE = (article) => `INSERT INTO article SET title='${article.title}',type='${article.type}',tags='${article.tags}',content='${article.content}',create_time='${nowTime()}',description='${article.description}',isTop=${article.isTop};`

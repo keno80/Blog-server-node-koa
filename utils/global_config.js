@@ -6,7 +6,8 @@ const config = {
     user: 'root',
     password: 'Kai123..',
     port: '3306',
-    host: '110.43.44.58'
+    host: '110.43.44.58',
+    multipleStatements: true
   }
 }
 
