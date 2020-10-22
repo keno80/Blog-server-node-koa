@@ -18,12 +18,10 @@ const upload = multer({storage: storage})
 router.post('/upload', upload.single('file'), async (ctx, next) => {
   const body = ctx.file
   const fileUrl = `${ctx.origin}/image/get/${body.filename}`
-  console.log(ctx.origin);
-
-  console.log(body);
 
   ctx.response.body = {
     code: 200,
+    message: '图片上传成功',
     data: {
       fileUrl
     }
