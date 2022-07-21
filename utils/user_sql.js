@@ -8,13 +8,13 @@
   );`.replace(/[\r\n]/g, '')
 
 //查询数据库
-const QUERY_TABLE = (tableName) => `SELECT * FROM ${tableName};`
+const USER_INFO = (username) => `SELECT * FROM user WHERE username='${username}';`
 
-const USER_LOGIN = (username) => `SELECT * FROM user WHERE username='${username}';`
+const USER_LOGIN = (data) => `SELECT * FROM user WHERE username='${data.username}' AND password='${data.password}';`
 
 const userSQL = {
   CREATE_TABLE,
-  QUERY_TABLE,
+  USER_INFO,
   USER_LOGIN
 }
 

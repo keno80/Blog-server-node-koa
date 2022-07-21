@@ -1,5 +1,5 @@
 const router = require('koa-router')()
-const {signToken} = require('../utils/security')
+const { signToken, need_token } = require('../utils/security')
 const dataQuery = require('../utils/query')
 const user_sql = require('../utils/user_sql')
 
@@ -7,7 +7,7 @@ const user_sql = require('../utils/user_sql')
 router.post('/login', async (ctx, next) => {
   let body = ctx.request.body
 
-  const userInfo = await dataQuery.query(user_sql.userSQL.USER_LOGIN(body.username))
+  const userInfo = await dataQuery.query(user_sql.userSQL.USER_LOGIN(body))
 
   if (userInfo.length !== 0) {
     if (userInfo[0].password === body.password) {
@@ -15,28 +15,31 @@ router.post('/login', async (ctx, next) => {
       ctx.response.body = {
         code: 200,
         message: '登录成功',
-        token
+        data: {
+          token
+        },
       }
     } else {
       ctx.response.body = {
         code: 201,
-        message: '登录失败，密码错误'
+        message: '登录失败，密码错误',
       }
     }
   }
 })
 
 //获取用户信息
-router.get('/getInfo', async (ctx, next) => {
+router.post('/getInfo', need_token, async (ctx, next) => {
+  const { username } = ctx.state.user
 
-  const data = await dataQuery.query(user_sql.userSQL.QUERY_TABLE('user'))
+  const res = await dataQuery.query(user_sql.userSQL.USER_INFO(username))
 
-  data[0].password = undefined
+  res[0].password = undefined
 
   ctx.response.body = {
     code: 200,
     message: '获取个人信息成功',
-    data
+    data: res[0]
   }
 })
 

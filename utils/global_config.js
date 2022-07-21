@@ -4,7 +4,7 @@ const config = {
   database: {
     database: 'blog',
     user: 'root',
-    password: 'password',
+    password: 'c@kai123..',
     port: '3306',
     host: 'localhost',
     multipleStatements: true
