@@ -36,5 +36,5 @@ const routes = require('./router/index')
 
 app.use(routes.routes(), routes.allowedMethods());
 
-app.listen(9090)
-console.log('app started at port 9090...')
+app.listen(9000)
+console.log('app started at port 9000...')
