@@ -14,7 +14,7 @@ const QUERY_CONDITION_PAGE_ARTICLE = (article, page, size) => `SELECT * FROM art
 const QUERY_ARTICLE_INFO = (id) => `SELECT * FROM article WHERE article_id='${id}';UPDATE article SET view_people=view_people+1 WHERE article_id=${id}`
 
 //插入数据
-const INSERT_ARTICLE = (article) => `INSERT INTO article SET title='${article.title}',type='${article.type}',tags='${article.tags}',content='${article.content}',create_time='${nowTime()}',description='${article.description}',isTop=${article.isTop};`
+const INSERT_ARTICLE = (article) => `INSERT INTO article SET title='${article.title}',tags='${article.tags}',content='${article.content}',create_time='${nowTime()}',description='${article.description}',code_theme='${article.codeTheme}',preview_theme='${article.previewTheme}',isTop=${article.isTop};`
 
 //整体数据
 const UPDATE_ARTICLE = (article) => `UPDATE article SET title='${article.title}',type='${article.type}',tags='${article.tags}',content='${article.content}',description='${article.description}',isTop=${article.isTop} WHERE article_id='${article.article_id}';`
